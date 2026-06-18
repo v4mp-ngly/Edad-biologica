@@ -1730,7 +1730,7 @@ displayResults(adjustedLevel, strength);
 
 // 🔹 Guardar evaluación en historial (localStorage)
 const evaluationData = {
-  fecha: today.toLocaleDateString('es-ES'),  // Formato legible
+  fecha: today.toISOString().split('T')[0],  // Formato YYYY-MM-DD para Supabase
   nombre: name,
   telefono: phone,
   edad: age,
