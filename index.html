@@ -857,7 +857,7 @@
             Comenzar evaluación →
         </button>
         <div class="wc-footer">
-            Toca para iniciar 
+            Toca para iniciar · Evaluación gratuita en feria
         </div>
     </div>
 
@@ -1358,7 +1358,7 @@ function updateNewUI(age, edadBiologicaFinal, deltaDetalle, comparacionTexto, bi
 //  SUPABASE CONFIG
 // ============================================================
 const SUPABASE_URL = 'https://umkgfptepjxdyhiukvwn.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_SCF-vbEPr5mE60NZquPtkg_dvUj4X0x';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVta2dmcHRlcGp4ZHloaXVrdnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExODgzNTgsImV4cCI6MjA5Njc2NDM1OH0.UkWNt8XTqekc1BosTCiBZi1oRkaM_ccwVi2_XMtAASA';
 const SUPABASE_TABLE = 'evaluaciones_edad_biologica';
 
 // ── Pure fetch — no library, no postMessage / DataCloneError ──────────────
@@ -2148,12 +2148,12 @@ function getRecommendations() {
     // Muy simple: meses cálidos (abril–septiembre) vs resto
     if (month >= 3 && month <= 8) {
         // Época más calurosa
-        focoActividad = 'Priorizar actividades aeróbicas moderadas (caminar, bicicleta estática, natación) evitando las horas de mayor calor y manteniendo hidratación adecuada.';
-        focoAlimentacion = 'Aumentar el consumo de frutas y vegetales frescos, incluir alimentos ricos en agua (ensaladas, frutas) y mantener una buena ingesta de proteínas magras.';
+        focoActividad = 'priorizar actividades aeróbicas moderadas (caminar, bicicleta estática, natación) evitando las horas de mayor calor y manteniendo hidratación adecuada.';
+        focoAlimentacion = 'aumentar el consumo de frutas y vegetales frescos, incluir alimentos ricos en agua (ensaladas, frutas) y mantener una buena ingesta de proteínas magras.';
     } else {
         // Época más fresca / neutra
-        focoActividad = 'Mantener una combinación de entrenamiento de fuerza 2–3 veces por semana y ejercicio aeróbico 3–5 días por semana, adaptando la intensidad a su nivel actual.';
-        focoAlimentacion = 'Priorizar alimentos naturales: vegetales, frutas, legumbres, proteínas magras y grasas saludables, reduciendo azúcares añadidos y ultraprocesados.';
+        focoActividad = 'mantener una combinación de entrenamiento de fuerza 2–3 veces por semana y ejercicio aeróbico 3–5 días por semana, adaptando la intensidad a su nivel actual.';
+        focoAlimentacion = 'priorizar alimentos naturales: vegetales, frutas, legumbres, proteínas magras y grasas saludables, reduciendo azúcares añadidos y ultraprocesados.';
     }
 
     // Texto según fuerza
