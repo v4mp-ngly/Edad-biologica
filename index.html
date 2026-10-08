@@ -1357,13 +1357,14 @@ function updateNewUI(age, edadBiologicaFinal, deltaDetalle, comparacionTexto, bi
 // ============================================================
 //  SUPABASE CONFIG
 // ============================================================
-const SUPABASE_URL = 'https://umkgfptepjxdyhiukvwn.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVta2dmcHRlcGp4ZHloaXVrdnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExODgzNTgsImV4cCI6MjA5Njc2NDM1OH0.UkWNt8XTqekc1BosTCiBZi1oRkaM_ccwVi2_XMtAASA';
+const SUPABASE_URL = 'https://srjiijenbawijtefhjmg.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNyamlpamVuYmF3aWp0ZWZoam1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0Mzk2MzIsImV4cCI6MjEwNzAxNTYzMn0.eJZ7vuUw2RabIzwQG92IhXmtfdIrXkqtF3f2cXqqSuo';
 const SUPABASE_TABLE = 'evaluaciones_edad_biologica';
 
 // ── Pure fetch — no library, no postMessage / DataCloneError ──────────────
 async function saveToSupabase(evaluationData) {
   try {
+    if (!window.numedAccessToken && !(await iniciarSesionSupabase())) return;
     const row = {
       fecha:                 evaluationData.fecha,
       nombre:                evaluationData.nombre,
@@ -1402,7 +1403,7 @@ async function saveToSupabase(evaluationData) {
         headers: {
           'Content-Type':  'application/json',
           'apikey':        SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Authorization': `Bearer ${window.numedAccessToken || SUPABASE_KEY}`,
           'Prefer':        'return=minimal'
         },
         body: JSON.stringify(row)
@@ -1420,14 +1421,31 @@ async function saveToSupabase(evaluationData) {
   }
 }
 
+async function iniciarSesionSupabase() {
+  const email = prompt('Correo del personal autorizado de NUMED:');
+  if (!email) return false;
+  const password = prompt('Contraseña de Supabase Auth:');
+  if (!password) return false;
+  const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+    method: 'POST',
+    headers: {'apikey': SUPABASE_KEY, 'Content-Type': 'application/json'},
+    body: JSON.stringify({email, password})
+  });
+  if (!response.ok) { alert('No se pudo iniciar sesión. Verifica el usuario y contraseña.'); return false; }
+  const session = await response.json();
+  window.numedAccessToken = session.access_token;
+  return true;
+}
+
 async function loadFromSupabase() {
   try {
+    if (!window.numedAccessToken && !(await iniciarSesionSupabase())) return;
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}?select=*&order=fecha.desc&limit=100`,
       {
         headers: {
           'apikey':        SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`
+          'Authorization': `Bearer ${window.numedAccessToken || SUPABASE_KEY}`
         }
       }
     );
