@@ -2651,11 +2651,19 @@ const seasonalHTML = `
             // ══════════════════════════════════════════════════════════════
             // PÁGINA 2 — Estilo de vida y Abdomen
             // ══════════════════════════════════════════════════════════════
-            doc.addPage();
-            addPageHeader(doc, 'Evaluación del Estilo de Vida');
-            y = 30;
+            // Continuar en la misma página cuando haya espacio suficiente.
+            // Evita una página con un gran bloque blanco al final.
+            const nuevaPaginaEstilo = y > 164;
+            if (nuevaPaginaEstilo) {
+                doc.addPage();
+                addPageHeader(doc, 'Evaluación del Estilo de Vida');
+                y = 30;
+            } else {
+                y += 5;
+            }
 
-            // ── Resumen compacto ──────────────────────────────────────────
+            // El resumen se repite solo al abrir una página nueva.
+            if (nuevaPaginaEstilo) {
             y = sectionBar(doc, 'Resumen del paciente', y);
             doc.setFillColor(...OFFWH);
             doc.roundedRect(15, y, 180, 18, 2, 2, 'F');
@@ -2664,6 +2672,7 @@ const seasonalHTML = `
             infoRow(doc, 'Edad biológica:',   edadBio+' años',  110, y+7,  34);
             infoRow(doc, 'Abdomen:',          abdomenNum+' cm', 110, y+14, 22);
             y += 25;
+            }
 
             // ── Barra estilo de vida ──────────────────────────────────────
             y = sectionBar(doc, 'Estilo de vida', y);
